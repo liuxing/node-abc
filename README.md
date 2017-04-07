@@ -13,6 +13,7 @@
 ## 目录
 
 - Lesson1 - [搭建Node.js开发环境](/lesson1)
+- Lesson2 - [了解并使用Http模块](/lesson2)
 
 ## 联系作者
 
