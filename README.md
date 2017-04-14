@@ -14,7 +14,8 @@
 
 - Lesson1 - [搭建Node.js开发环境](/lesson1)
 - Lesson2 - [了解并使用Http模块](/lesson2)
-- Lesson2 - [Node模块与npm](/lesson3)
+- Lesson3 - [Node模块与npm](/lesson3)
+- Lesson4 - [搭建静态文件服务器](/lesson4)
 
 ## 联系作者
 
