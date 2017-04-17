@@ -16,6 +16,7 @@
 - Lesson2 - [了解并使用Http模块](/lesson2)
 - Lesson3 - [Node模块与npm](/lesson3)
 - Lesson4 - [搭建静态文件服务器](/lesson4)
+- Lesson5 - [Node中的stream (流)](/lesson5)
 
 ## 联系作者
 
