@@ -245,10 +245,15 @@ copy(paths)
 
 到此我们就用流来处理了文件复制。当然我们还可以用它来处理[HTTP requests, on the client](http://nodejs.cn/api/http.html#http_class_http_clientrequest)、[HTTP responses, on the server](http://nodejs.cn/api/http.html#http_class_http_serverresponse)、 [fs write streams](http://nodejs.cn/api/fs.html#fs_class_fs_writestream)、[zlib streams](http://nodejs.cn/api/zlib.html)、[crypto streams](http://nodejs.cn/api/crypto.html)、[TCP sockets](http://nodejs.cn/api/net.html#net_class_net_socket)、 [child process stdin](http://nodejs.cn/api/child_process.html#child_process_child_stdin)、 [`process.stdout`](http://nodejs.cn/api/process.html#process_process_stdout), 、[`process.stderr`](http://nodejs.cn/api/process.html#process_process_stderr)，大家可以自己试试。
 
-对所有流来说，通常使用`pipe`方法更为简便直接，所以应避免使用其他方式
+对所有流来说，通常使用`pipe`方法更为简便直接
+
+本文介绍了Stream的一些基础，并用它实现了一个小的文件复制功能。这是只是入门小文档，关于Node的Stream更多的知识，需要大家自己去了解
+
+**抛砖引玉**
 
 ### 相关连接
 
 - [GitHub地址](https://github.com/ogilhinn/node-abc/tree/master/lesson5)
 - [Node中文网](http://nodejs.cn/api/stream.html)
+- [阮一峰](http://javascript.ruanyifeng.com/nodejs/stream.html)
 - [nodejs中流(stream)的理解](https://segmentfault.com/a/1190000000519006)
