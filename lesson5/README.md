@@ -10,7 +10,7 @@
 
 ## 1.了解Node Stream(流)
 
-> 数据流（stream）是处理系统缓存的一种方式。操作系统采用数据块（chunk）的方式读取数据，每收到一次数据，就存入缓存。Node应用程序有两种缓存的处理方式，第一种是等到所有数据接收完毕，一次性从缓存读取，这就是传统的读取文件的方式*(遇上大文件很容易使内存“爆仓”)*；第二种是采用“数据流”的方式，收到一块数据，就读取一块，即在数据还没有接收完成时，就开始处理它*(像流水一样)*
+> 数据流（stream）是处理系统缓存的一种方式。操作系统采用数据块（chunk）的方式读取数据，每收到一次数据，就存入缓存。Node应用程序有两种缓存的处理方式，第一种是等到所有数据接收完毕，一次性从缓存读取，这就是传统的读取文件的方式*(遇上大文件很容易使**内存爆仓**)*；第二种是采用“数据流”的方式，收到一块数据，就读取一块，即在数据还没有接收完成时，就开始处理它*(像流水一样)*
 
 ### Node.js 中有四种基本的流类型：
 
@@ -154,6 +154,8 @@ console.log("程序执行完毕")
 
 ## 2.通过Stream实现文件复制功能
 
+*本例参考 chshouyu：*[nodejs中流(stream)的理解](https://segmentfault.com/a/1190000000519006)
+
 Node的 `fs` 模块并没有提供一个 `copy` 的方法，但我们可以很容易的实现一个。
 
 我们先来看看在不知道流之前我们会怎么做：
@@ -168,7 +170,7 @@ fs.writeFileSync('./TEST.md', file)
 
 既然我们学了Stream，现在我们就用Stream来实现这个简单的功能：
 
-#### 1. 实现单个文件的复制
+#### 1. 简单实现文件的复制
 
 ```javascript
 const fs = require('fs')
@@ -191,23 +193,62 @@ WriteStream.on('finish', ()=>{
 
 我们可以通过管道流很方便的实现单个文件的复制。
 
-#### 2.文件夹的复制
+#### 2.添加显示处理状态的功能
+这里很简单就直接贴代码了。
 
 ```javascript
 const fs = require('fs')
+const out = process.stdout
 
-let pathname = {
-    current: './copy.js',
-    target: './test.js'
+let paths = {
+    src: '../test/test.mp4',
+    dist: '../test1.mp4'
 }
 
-let ReadStream = fs.createReadStream(pathname.current)
-let WriteStream = fs.createWriteStream(pathname.target)。 
+function copy(paths){
+    let {src, dist} = paths
+    let readStream = fs.createReadStream(src)
+    let writeStream = fs.createWriteStream(dist)
+    
+    let stat = fs.statSync(src),
+        totalSize = stat.size,
+        progress = 0,
+        lastSize = 0,
+        startTime = Date.now()
 
-ReadStream.pipe(WriteStream)
+    readStream.on('data', function(chunk) {
+        progress += chunk.length;
+    })
 
-WriteStream.on('finish', ()=>{
-    console.log('复制完成')
+    // 我们添加了一个递归的setTimeout来做一个旁观者
+    // 每500ms观察一次完成进度，并把已完成的大小、百分比和复制速度一并写到控制台上
+    // 当复制完成时，计算总的耗费时间
+    setTimeout(function show() {
+        let percent = Math.ceil((progress / totalSize) * 100)
+        let size = Math.ceil(progress / 1000000)
+        let diff = size - lastSize
+        lastSize = size
+        out.clearLine()
+        out.cursorTo(0)
+        out.write(`已完成${size}MB,${percent}%, 速度：${diff * 2}MB/s`)
+        if (progress < totalSize) {
+            setTimeout(show, 500)
+        } else {
+            let endTime = Date.now()
+            console.log(`共用时：${(endTime - startTime) / 1000}秒。`)
+        }
+    }, 500)
 }
+
+copy(paths)
 ```
 
+到此我们就用流来处理了文件复制。当然我们还可以用它来处理[HTTP requests, on the client](http://nodejs.cn/api/http.html#http_class_http_clientrequest)、[HTTP responses, on the server](http://nodejs.cn/api/http.html#http_class_http_serverresponse)、 [fs write streams](http://nodejs.cn/api/fs.html#fs_class_fs_writestream)、[zlib streams](http://nodejs.cn/api/zlib.html)、[crypto streams](http://nodejs.cn/api/crypto.html)、[TCP sockets](http://nodejs.cn/api/net.html#net_class_net_socket)、 [child process stdin](http://nodejs.cn/api/child_process.html#child_process_child_stdin)、 [`process.stdout`](http://nodejs.cn/api/process.html#process_process_stdout), 、[`process.stderr`](http://nodejs.cn/api/process.html#process_process_stderr)，大家可以自己试试。
+
+对所有流来说，通常使用`pipe`方法更为简便直接，所以应避免使用其他方式
+
+### 相关连接
+
+- [GitHub地址](https://github.com/ogilhinn/node-abc/tree/master/lesson5)
+- [Node中文网](http://nodejs.cn/api/stream.html)
+- [nodejs中流(stream)的理解](https://segmentfault.com/a/1190000000519006)
