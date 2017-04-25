@@ -8,7 +8,7 @@
 
 ## 介绍
 
-这个课程不是文档式的，也不是纯案例。而是在学习每个知识点后，提供个Node.js 实战例子来稳固这些知识点，希望可以通过每一节精心安排的课程目标，让 Node.js 的初学者们可以循序渐进地，有目的地开展 Node.js 的学习，少一点儿迷茫。
+这个课程不是文档式的，也不是纯案例。而是在学习每个知识点后，提供个Node.js 实战例子来稳固这些知识点，希望可以通过每一节精心安排的课程，让 Node.js 的初学者们可以循序渐进地，有目的地开展 Node.js 的学习，少一点儿迷茫。
 
 ## 目录
 
@@ -17,10 +17,12 @@
 - Lesson3 - [Node模块与npm](/lesson3)
 - Lesson4 - [搭建静态文件服务器](/lesson4)
 - Lesson5 - [Node中的stream (流)](/lesson5)
+- Lesson6 - [Node的readline (逐行读取)](/lesson6)
 
 ## 联系作者
 
 - 邮箱：[ogilhinn@gmail.com](mailto:ogilhinn@gmail.com)
+- 博客: [刘星的博客](http://www.xingxin.me/)
 
 ## License
 
