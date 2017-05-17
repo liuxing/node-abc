@@ -19,6 +19,8 @@
 - Lesson5 - [Node中的stream (流)](/lesson5)
 - Lesson6 - [Node的readline (逐行读取)](/lesson6)
 
+## more
+- [Node相关入门资料](//tutorials)
 ## 联系作者
 
 - 邮箱：[ogilhinn@gmail.com](mailto:ogilhinn@gmail.com)
