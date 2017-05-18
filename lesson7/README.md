@@ -19,7 +19,7 @@
 
 
 
-![OSI的七层协议模型](OSI.gif)
+![OSI的七层协议模型](http://ommpd2lnj.bkt.clouddn.com/OSI.gif)
 
 
 
@@ -198,3 +198,9 @@ client.on('end', () => {
 - [互联网协议入门](http://www.ruanyifeng.com/blog/2012/05/internet_protocol_suite_part_i.html)
 - [简单理解Socket](http://www.cnblogs.com/dolphinX/p/3460545.html)
 - [全栈必备：网络编程基础](http://blog.jobbole.com/110041/)
+
+抛砖引玉
+
+*最近一直没在状态，所以这个系列有好久没更新了，后续将加紧进度*
+
+*后续计划：以构建一个完整的Node web框架来巩固前面的学习*
