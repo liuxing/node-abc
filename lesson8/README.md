@@ -1,6 +1,6 @@
 # Node操作数据库
 
-> Web应用离不开数据库的操作，这一节我们将了解Node操作[MongoDB](https://www.mongodb.com/)与[MySQL](https://www.mysql.com/)，这是两个具有代表性的数据库，非关系型数据库*(*NoSQL*)*及关系型数据库*(SQL)*
+> Web应用离不开数据库的操作，我们将了解Node操作[MongoDB](https://www.mongodb.com/)与[MySQL](https://www.mysql.com/)，这是两个具有代表性的数据库，非关系型数据库*(*NoSQL*)*及关系型数据库*(SQL)*
 
 ## 关系型数据库与非关系型数据库
 
@@ -14,7 +14,7 @@
  - 高可用
 
 
-### NoSQL的分类
+#### NoSQL的分类
 
 NoSQL可以大体上分为4个种类：**Key-value、Document-Oriented、Column-Family Databases以及 Graph-Oriented Databases**
 
@@ -35,139 +35,120 @@ SQL指结构化查询语言，全称是 Structured Query Language，关系数据
 - 使用方便：通用的SQL语言使得操作关系型数据库非常方便
 - 易于维护：丰富的完整性(实体完整性、参照完整性和用户定义的完整性)大大减低了数据冗余和数据不一致的概率
 
-*前文提到了SQL遇到了瓶颈，并不是说SQL不行(个人认为MySQL是业内最优秀的数据库)，而是应用场景的不同*
+*前文提到了SQL遇到了瓶颈，并不是说SQL不行(个人认为MySQL是业内相当优秀的数据库)，只是应用场景的不同*
 
 #### RDBMS 数据库程序
 RDBMS 指关系型数据库管理系统*(Relational Database Management System)*。RDBMS 是 SQL 的基础，同样也是所有现代数据库系统的基础，比如 MS SQL Server、IBM DB2、Oracle、MySQL 以及 Microsoft Access。RDBMS 中的数据存储在被称为表的数据库对象中。表是相关的数据项的集合，它由列和行组成
 
-REBMS 数据库术语：
+接下来我们就一起来使用Node操作MongoDB*(下一篇介绍Node操作MySQL)*，并使用它来写一个建议的**图书管理小案例**
 
-- 数据库:  数据库是一些关联表的集合。.
-- 数据表: 表是数据的矩阵。在一个数据库中的表看起来像一个简单的电子表格。
-- 列: 一列(数据元素) 包含了相同的数据, 例如邮政编码的数据。
-- 行：一行（=元组，或记录）是一组相关的数据，例如一条用户订阅的数据。
-- 冗余：存储两倍数据，冗余降低了性能，但提高了数据的安全性。
-- 主键：主键是唯一的。一个数据表中只能包含一个主键。你可以使用主键来查询数据。
-- 外键：外键用于关联两个表。
-- 复合键：复合键（组合键）将多个列作为一个索引键，一般用于复合索引。
-- 索引：使用索引可快速访问数据库表中的特定信息。索引是对数据库表中一列或多列的值进行排序的一种结构。类似于书籍的目录。
-- 参照完整性: 参照的完整性要求关系中不允许引用
-
-
-##  MongoDB
+##  Node操作MongoDB
 
 MongoDB 是一个基于分布式文件存储的数据库。由 C++ 语言编写。旨在为 WEB 应用提供可扩展的高性能数据存储解决方案。MongoDB 是一个介于关系数据库和非关系数据库之间的产品，是非关系数据库当中功能最丰富，最像关系数据库的。
+MongoDB和Node.js特别配，因为MongoDB是基于文档的，文档是按BSON（JSON的轻量化二进制格式）存储的，增删改查等管理数据库的命令和JavaScript语法很像，这里我们选择[mongoose](http://mongoosejs.com/)来进行增删改查，mongoose构建在MongoDB之上，提供了Schema、Model和Document对象，用起来很方便
 
-###  MongoDB的简介
+### 1. 安装Mongoose
 
+```bash
+$ npm install mongoose
+```
 
+安装好后 `require('mongoose')`就可以使用了
 
+#### 2.使用Mongoose进行CRUD 
 
+连接数据库
 
-### 数据库操作( CURD )
+```javascript
+const mongoose = require("mongoose")
+// 使用原生promise，mongoose自带promise不再支持了
+mongoose.Promise = global.Promise
 
+const db=mongoose.connect('mongodb://localhost/test')
 
+db.connection.on("error", function (error) {  
+  console.log("数据库连接失败：" + error)
+})
 
+db.connection.on("open", function () {  
+  console.log("数据库连接成功")
+})
+```
 
+我们来看看Mongoose的几个名词
 
+- `Schema`  ：  一种以文件形式存储的数据库模型骨架，不具备数据库的操作能力
+- `Model`   ：  由`Schema`发布生成的模型，具有抽象属性和行为的数据库操作对
+- `Entity`  ：  由`Model`创建的实体，他的操作也会影响数据库
 
+**`Schema`生成`Model`，`Model`创造`Entity`，`Model`和`Entity`都可对数据库操作造成影响，但`Model`比`Entity`更具操作性**
 
+**Schema**
 
+schema是mongoose里会用到的一种数据模式，可以理解为表结构的定义；每个schema会映射到mongodb中的一个collection，它不具备操作数据库的能力
 
+```javascript
+const kittySchema = mongoose.Schema({
+    name: String
+})
+```
 
+**Model**
 
+定义好了Schema，接下就是生成Model。
+model是由schema生成的模型，可以对数据库的操作
 
+```javascript
+var Kitten = mongoose.model('Kitten', kittySchema)
+```
 
+**Entity**
+用Model创建Entity，`Entity`可以对数据库操作
 
+```javascript
+var silence = new Kitten({ name: 'Silence' })
+console.log(silence.name); // 'Silence'
+```
 
+#### 查询
 
+```javascript
+model.find({},field,callback) // 参数1忽略,或为空对象则返回所有集合文档
 
+model.find({},{'name':1, 'age':0},callback) //过滤查询,参数2: {'name':1, 'age':0} 查询文档的返回结果包含name , 不包含age.(_id默认是1)
 
+model.find({},null,{limit:20}) // 游标操作 limit 限制返回结果数量为20个,如不足20个则返回所有
 
+model.findOne({}, callback) // 查询找到的第一个文档
 
+model.findById('obj._id', callback) // 查询找到的第一个文档, 只接受 _id 的值查询
+```
 
+#### 创建
 
+```javascript
+// 在集合中创建一个文档
+Model.create(doc(s), [callback])
 
+Entity.save(callback)
+```
 
+#### 删除
 
+```javascript
+Model.remove([criteria], [callback]) // 参数1:查询条件
+```
 
+#### 修改
 
+```javascript
+Model.update(conditions, update, [options], [callback])
+```
 
+关于Mongoose的更多使用请移步[官网](http://mongoosejs.com)     *(推荐阅读： [Mongoose学习参考文档——基础篇](https://cnodejs.org/topic/504b4924e2b84515770103dd))*
 
+### 图书管理
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## 3. MySQL
-
-MySQL是最流行的关系型数据库管理系统，在WEB应用方面MySQL是最好的RDBMS(Relational Database Management System：关系数据库管理系统)应用软件之一
+后续：Node操作MySQL

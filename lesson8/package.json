@@ -1,0 +1,18 @@
+{
+  "name": "lesson8",
+  "version": "1.0.0",
+  "description": "node 操作数据库",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.15.3",
+    "mongoose": "^4.10.1",
+    "mysql": "^2.13.0",
+    "nunjucks": "^3.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Liu Xing",
+  "license": "ISC"
+}
