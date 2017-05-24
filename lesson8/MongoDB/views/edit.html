@@ -1,0 +1,20 @@
+{% extends "base.html"  %}
+{% block body %}
+<div class="uk-container">
+   <form method="POST" action="/{{bookid}}/edit">
+        <fieldset class="uk-fieldset">
+            <legend class="uk-legend">新增书籍</legend>
+            <div class="uk-margin">
+                <input class="uk-input" name="title" type="text" placeholder="请输入书名" value="{{ book.title }}" required>
+            </div>
+            <div class="uk-margin">
+                <textarea class="uk-textarea" name="summary" rows="5" placeholder="简介" required> {{ book.summary }}</textarea>
+            </div>
+            <div class="uk-margin">
+                <input class="uk-input" name="price" type="number" placeholder="请输入价格" value="{{ book.price }}"  required>
+            </div>
+            <button type="submit" class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-bottom">确认</button>
+        </fieldset>
+    </form>
+</div>
+{% endblock %}

@@ -1,6 +1,6 @@
 # Node操作数据库
 
-> Web应用离不开数据库的操作，我们将了解Node操作[MongoDB](https://www.mongodb.com/)与[MySQL](https://www.mysql.com/)，这是两个具有代表性的数据库，非关系型数据库*(*NoSQL*)*及关系型数据库*(SQL)*
+> Web应用离不开数据库的操作，我们将了解Node操作[MongoDB](https://www.mongodb.com/)与[MySQL](https://www.mysql.com/)，这是两个具有代表性的数据库，非关系型数据库*(*NoSQL*)*及关系型数据库*(SQL)*，这一节，我们主要了解node中使用MongoDB，并与express结合实现一个简单图书管理小应用
 
 ## 关系型数据库与非关系型数据库
 
@@ -45,6 +45,17 @@ RDBMS 指关系型数据库管理系统*(Relational Database Management System)*
 ##  Node操作MongoDB
 
 MongoDB 是一个基于分布式文件存储的数据库。由 C++ 语言编写。旨在为 WEB 应用提供可扩展的高性能数据存储解决方案。MongoDB 是一个介于关系数据库和非关系数据库之间的产品，是非关系数据库当中功能最丰富，最像关系数据库的。
+
+| SQL术语/概念    | MongoDB术语/概念 | 解释/说明                   |
+| ----------- | ------------ | ----------------------- |
+| database    | database     | 数据库                     |
+| table       | collection   | 数据库表/集合                 |
+| row         | document     | 数据记录行/文档                |
+| column      | field        | 数据字段/域                  |
+| index       | index        | 索引                      |
+| table joins |              | 表连接,MongoDB不支持          |
+| primary key | primary key  | 主键,MongoDB自动将_id字段设置为主键 |
+
 MongoDB和Node.js特别配，因为MongoDB是基于文档的，文档是按BSON（JSON的轻量化二进制格式）存储的，增删改查等管理数据库的命令和JavaScript语法很像，这里我们选择[mongoose](http://mongoosejs.com/)来进行增删改查，mongoose构建在MongoDB之上，提供了Schema、Model和Document对象，用起来很方便
 
 ### 1. 安装Mongoose
@@ -93,6 +104,19 @@ const kittySchema = mongoose.Schema({
 })
 ```
 
+**Schema.Type**
+
+`Schema.Type`是由`Mongoose`内定的一些数据类型，基本数据类型都在其中，他也内置了一些`Mongoose`特有的`Schema.Type`。当然，你也可以自定义`Schema.Type`，只有满足`Schema.Type`的类型才能定义在`Schema`内
+
+- String
+- Number
+- Date
+- Buffer
+- Boolean
+- Mixed
+- Objectid
+- Array
+
 **Model**
 
 定义好了Schema，接下就是生成Model。
@@ -136,19 +160,313 @@ Entity.save(callback)
 #### 删除
 
 ```javascript
-Model.remove([criteria], [callback]) // 参数1:查询条件
+Model.remove([criteria], [callback]) // 根据条件查找到并删除
+
+Model.findByIdAndRemove(id, [options], [callback]) // 根据id查找到并删除
 ```
 
 #### 修改
 
 ```javascript
-Model.update(conditions, update, [options], [callback])
+Model.update(conditions, update, [options], [callback]) // 根据参数找到并更新
+
+Model.findByIdAndUpdate(id, [update], [options], [callback])  // 根据id查找到并更新
 ```
 
-关于Mongoose的更多使用请移步[官网](http://mongoosejs.com)     *(推荐阅读： [Mongoose学习参考文档——基础篇](https://cnodejs.org/topic/504b4924e2b84515770103dd))*
+上面简单写了几个常用操作，关于Mongoose的更多使用请移步[官网](http://mongoosejs.com) ，我就不搬了   *(推荐阅读： [Mongoose学习参考文档——基础篇](https://cnodejs.org/topic/504b4924e2b84515770103dd))*
 
-### 图书管理
+### 图书管理系统
+
+了解了MongoDB以及Mongoose的简单使用，我们一起来实现一个图书管理的小案例，其有最基本的增删改查，同时我们将了解到express的基本使用，同时会认识下模板引擎，*但这些只是简略了解，这节的重点是Mongoose操作MongoDB*
+
+![Node图书管理](http://ommpd2lnj.bkt.clouddn.com/librarian.png)
+
+传送门： [Github](https://github.com/ogilhinn/node-abc/tree/master/lesson8) 
+
+*可以去github拉下来，然后`npm install ` 然后`node index.js`即可跑起来*
+
+#### 1. 准备工作
+
+我们先随便新建一个文件夹，然后在这个目录下
+
+```bash
+$ npm init
+```
+
+初始化项目完成后使用下载express,mongoose,nunjucks(模板引擎), body-parser(bodyParser中间件用来解析http请求体)
+
+```bash
+$ npm install express mongoose nunjucks body-parser --save
+```
+
+接下来我们新建index.js文件，在里面将express跑起来
+
+```javascript
+const express = require('express')
+const nunjucks = require('nunjucks')
+const path = require('path')
+const bodyParser = require('body-parser')
+const app = express()
+
+// 静态文件目录
+app.use(express.static(path.join(__dirname, 'public')))
+
+// 配置模板引擎
+nunjucks.configure(path.join(__dirname, 'views'), {
+    autoescape: true,
+    express: app
+})
+app.set('view engine', 'html')
+// 配置bodyParser
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({extended: false}))
+
+// 路由
+app.get('/', (req, res)=>{
+    res.send('HELLO mongo')
+})
+
+const server = app.listen(3000, function () {
+    console.log('app listening at http:localhost:3000')
+})
+```
+
+这里我们再聊一聊Node web应用的模板引擎，这儿我们用了[nunjucks](http://mozilla.github.io/nunjucks/) 这是mozilla维护的一个模板引擎，他是 [jinja2](http://docs.jinkan.org/docs/jinja2/)的javascript版本，用过python的jinja2一定会感觉很亲切，除此之外，很有很多有些的模板引擎如[ejs](http://ejs.co/)，[jade](https://pugjs.org/api/getting-started.html)。但个人认为jade是反人类的，因此更推荐Nunjucks及ejs。当然了，这取决于大家的喜好，更多模板引擎请自行搜索了解。
+
+我们新建一个views文件夹，放置模板。这儿只需要一个主页显示所有图书index.html，add.html添加图书，edit.html编辑图书，base.html作为基础模板，其他模板文件可以继承它
+
+关于nunjucks，我们以他官网的那一段小代码来简单看一下
+
+```jinja2
+{% extends "base.html" %} {# 继承base.html 这是注释 #}
+
+{# 区块 #}
+{% block header %}
+<h1>{{ title }}</h1>
+{% endblock %}
+
+{% block content %}
+<ul>
+  {# 循环 #}
+  {% for name, item in items %}
+  <li>{{ name }}: {{ item }}</li>
+  {% endfor %}
+</ul>
+{% endblock %}   
+```
+
+更多使用请自行查看[官网](http://mozilla.github.io/nunjucks/)，
+
+#### 2.  功能设计以及路由配置 
+
+这儿我们就来看看，这个小的图书管理系统需要的功能。**增删改查**  *就是新增图书，删除图书，修改图书，显示所有图书*
+
+我们就可以根据这几个功能来配置我们的路由了
+
+```javascript
+const express = require('express')
+const router = express.Router()
+
+// GET 首页显示全部书籍
+router.get('/', (req, res) => {
+    
+})
+
+// GET 新增书籍
+router.get('/add', (req, res) => {
+    
+})
+// POST 新增书籍
+router.post('/add', (req, res) => {
+    
+})
+
+// GET 删除
+router.get('/:bookId/remove', (req, res) => {
+    
+})
+// GET 编辑
+router.get('/:bookId/edit', (req, res) => {
+    
+})
+
+// POST 编辑
+router.post('/:bookId/edit', (req, res) => {
+    
+})
+```
+
+这儿为了项目结构更清晰，我们不把路由写在index.js中，而是提取到routes目录下，我们新建routes目录，在下面新建book.js ，然后将相关路由全部放到其中并导出，
+
+```javascript
+const express = require('express')
+const router = express.Router()
+
+···
+···
+···
+
+module.exports = router // 导出
+```
+
+新建一个index.js文件
+
+```javascript
+module.exports = function (app) {
+    app.use('/', require('./book'))
+}
+```
+这儿这样划分，在这可能看不出太多优势，但是在大一点的应用中，我们这样配置可以让功能划分很清晰。
+
+最后我们在入口文件index.js中将路由`require`进去，
+
+```javascript
+···
+routes(app)
+···
+```
+
+到此，前置工作就差不多了，下面我们就可以进入今天的重头戏**Mongoose**
+
+#### 3. 功能实现, Mongoose操作MongoDB
+
+新建lib文件夹，新建mongo.js文件，连接数据库，在其中定义 Schema 并发布为model
+
+```javascript
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
+
+mongoose.Promise = global.Promise
+
+// MongoDB会自动建立books数据库
+const db = mongoose.connect('mongodb://localhost:27017/books')
+
+db.connection.on("error", function (error) {
+    console.log("数据库连接失败：" + error)
+})
+
+db.connection.on("open", function () {
+    console.log("数据库连接成功")
+})
+
+const BookSchema = Schema({
+    title: {
+        unique: true,
+        type: 'String',
+    },
+    summary: 'String',
+    price: 'Number',
+    meta: {
+        createAt: {
+            type: Date,
+            default: Date.now()
+        }
+    }
+})
+
+exports.Book = mongoose.model('Book', BookSchema)
+```
+
+新建Models文件夹，在其中新建books.js放置对MongoDB 的一些操作
+
+```javascript
+const Book = require('../lib/mongo').Book
+
+module.exports = {
+    getBooks(){
+        return Book
+            .find({})
+            .sort({_id: -1})
+            .exec()
+    },
+    getBook(id){
+        return Book
+            .findById(id)
+            .exec()
+    },
+    editBook(id, data){
+        return Book
+        .findByIdAndUpdate(id, data)
+        .exec()
+    },
+    addBook(book){
+        return Book.create(book)
+    },
+    delBook(id){
+        return Book
+            .findByIdAndRemove(id)
+            .exec()
+    }
+}
+```
+
+这里面的一些方法，我们在前面讲Mongoose的时候逸都了解过了，想了解的更多还是推荐去[官网看看](http://mongoosejs.com/)
+
+最后我们就是根据不同的路由进行不同的处理了
+
+```javascript
+const express = require('express')
+const router = express.Router()
+const BookModel = require('../models/books')
+
+router.get('/', (req, res) => {
+    BookModel.getBooks()
+    .then((books) => {
+        res.render('index', {books})
+    })
+})
+
+router.get('/add', (req, res) => {
+    res.render('add')
+})
+
+router.post('/add', (req, res) => {
+    let book = req.body
+    BookModel.addBook(book)
+    .then((result) => {
+        res.redirect('/')
+    })
+})
+
+router.get('/:bookId/remove', (req, res) => {
+    BookModel.delBook(req.params.bookId)
+    .then((book) => {
+        res.redirect('/')
+    })
+})
 
 
+router.get('/:bookId/edit', (req, res) => {
+    let book = req.body
+    BookModel.getBook(req.params.bookId)
+    .then((book) => {
+        res.render('edit', { 
+            book,
+            bookid: req.params.bookId
+         })
+    })
+})
+
+router.post('/:bookId/edit', (req, res) => {
+    let book = req.body
+    BookModel.editBook(req.params.bookId, book)
+    .then((result)=>{
+        res.redirect('/')
+    })
+})
+
+module.exports = router
+```
+
+OK!!!到此，我们这小项目基本就算完成了。代码详见[GitHub](https://github.com/ogilhinn/node-abc/tree/master/lesson8) 作为一个学习案例，这算完成了，但其中可以优化完善的地方还很多，大家可以自行探索···
+
+**抛砖引玉**
+
+### 相关连接
+
+- [express](http://www.expressjs.com.cn/)
+- [mongoose](http://mongoosejs.com)
+- [bodyParser](https://github.com/expressjs/body-parser)
+- [JavaScript Promise迷你书中文版](http://liubin.org/promises-book/)
 
 后续：Node操作MySQL

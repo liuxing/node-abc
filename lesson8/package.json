@@ -4,6 +4,7 @@
   "description": "node 操作数据库",
   "main": "index.js",
   "dependencies": {
+    "body-parser": "^1.17.2",
     "express": "^4.15.3",
     "mongoose": "^4.10.1",
     "mysql": "^2.13.0",

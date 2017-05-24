@@ -1,0 +1,29 @@
+{% extends "base.html"  %}
+{% block body %}
+<div class="uk-container">
+    <table class="uk-table uk-table-divider">
+        <thead>
+            <tr class="uk-child-width-1-4">
+                <th>书名</th>
+                <th>简介</th>                
+                <th>价格</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book in books %}
+                <tr>
+                <td>{{ book.title }}</td>
+                <td>{{ book.summary }}</td>
+                <td>{{ book.price }}</td>                
+                <td>
+                    <a href="{{ book.id }}/edit" class="uk-button uk-button-primary uk-button-small">修改</a>                    
+                    <a href="{{ book.id }}/remove" class="uk-button uk-button-danger uk-button-small">删除</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="/add" class="uk-button uk-button-default uk-width-1-1 uk-margin-small-bottom">新增</a>
+</div>
+{% endblock %}

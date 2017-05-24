@@ -1,13 +1,20 @@
-// @TODO 图书管理
 const express = require('express')
+const nunjucks = require('nunjucks')
+const path = require('path')
+const bodyParser = require('body-parser')
 const app = express()
+const routes = require('./routes')
 
-app.get('/', function (req, res) {
-  res.send('Hello World!')
+app.use(express.static(path.join(__dirname, 'public')))
+nunjucks.configure(path.join(__dirname, 'views'), {
+    autoescape: true,
+    express: app
 })
+app.set('view engine', 'html')
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({extended: false}))
+routes(app)
 
 const server = app.listen(3000, function () {
-  let host = server.address().address
-  let port = server.address().port
-  console.log('Example app listening at http://%s:%s', host, port)
+    console.log('app listening at http:localhost:3000')
 })
