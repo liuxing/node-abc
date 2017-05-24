@@ -1,17 +1,18 @@
-# Node操作数据库
+# Node操作MongoDB数据库
 
-> Web应用离不开数据库的操作，我们将了解Node操作[MongoDB](https://www.mongodb.com/)与[MySQL](https://www.mysql.com/)，这是两个具有代表性的数据库，非关系型数据库*(*NoSQL*)*及关系型数据库*(SQL)*，这一节，我们主要了解node中使用MongoDB，并与express结合实现一个简单图书管理小应用
+> Web应用离不开数据库的操作，我们将陆续了解Node操作[MongoDB](https://www.mongodb.com/)与[MySQL](https://www.mysql.com/)这是两个具有代表性的数据库，非关系型数据库*(*NoSQL*)*及关系型数据库*(SQL)*。这一节，我们主要了解node中使用MongoDB，并与express结合实现一个简单图书管理小应用
 
-## 关系型数据库与非关系型数据库
+我们来简单看看关系型数据库与非关系型数据库
 
 ### 非关系型数据库-NoSQL
+
 在NoSQL之前，数据库中SQL一支独秀。随着web2.0的快速发展，非关系型、分布式数据存储得到了快速的发展，访问量巨大，传统关系型数据库遇到各种瓶颈*(如：高并发读写需求，高扩展性和可用性，复杂SQL，特别是多表关联查询等等)*。NoSQL就诞生于此背景下，NoSQL数据库的出现，弥补了关系数据（比如MySQL）在某些方面的不足，在某些方面能极大的节省开发成本和维护成本
 
 #### NoSQL的优势
- - 易扩展
- - 高性能
- - 灵活的数据模型
- - 高可用
+- 易扩展
+- 高性能
+- 灵活的数据模型
+- 高可用
 
 
 #### NoSQL的分类
@@ -40,11 +41,11 @@ SQL指结构化查询语言，全称是 Structured Query Language，关系数据
 #### RDBMS 数据库程序
 RDBMS 指关系型数据库管理系统*(Relational Database Management System)*。RDBMS 是 SQL 的基础，同样也是所有现代数据库系统的基础，比如 MS SQL Server、IBM DB2、Oracle、MySQL 以及 Microsoft Access。RDBMS 中的数据存储在被称为表的数据库对象中。表是相关的数据项的集合，它由列和行组成
 
-接下来我们就一起来使用Node操作MongoDB*(下一篇介绍Node操作MySQL)*，并使用它来写一个建议的**图书管理小案例**
+接下来我们就一起来使用Node操作MongoDB*(Node操作MySQL将在下一篇介绍)*，并使用它来写一个建议的**图书管理小案例** 
 
 ##  Node操作MongoDB
 
-MongoDB 是一个基于分布式文件存储的数据库。由 C++ 语言编写。旨在为 WEB 应用提供可扩展的高性能数据存储解决方案。MongoDB 是一个介于关系数据库和非关系数据库之间的产品，是非关系数据库当中功能最丰富，最像关系数据库的。
+MongoDB 是一个基于分布式文件存储的数据库。由 C++ 语言编写。旨在为 WEB 应用提供可扩展的高性能数据存储解决方案。MongoDB 是一个介于关系数据库和非关系数据库之间的产品，是非关系数据库当中功能最丰富，最像关系数据库的。下面这个表就展示出来MongoDB与SQL数据库的一个简单比较
 
 | SQL术语/概念    | MongoDB术语/概念 | 解释/说明                   |
 | ----------- | ------------ | ----------------------- |
@@ -93,6 +94,8 @@ db.connection.on("open", function () {
 - `Entity`  ：  由`Model`创建的实体，他的操作也会影响数据库
 
 **`Schema`生成`Model`，`Model`创造`Entity`，`Model`和`Entity`都可对数据库操作造成影响，但`Model`比`Entity`更具操作性**
+
+关于mongoose最重要的就是理解`Schema` `Model` `Entity` ，它的各种方法直接去查文档使用就好。
 
 **Schema**
 
@@ -179,6 +182,8 @@ Model.findByIdAndUpdate(id, [update], [options], [callback])  // 根据id查找�
 
 了解了MongoDB以及Mongoose的简单使用，我们一起来实现一个图书管理的小案例，其有最基本的增删改查，同时我们将了解到express的基本使用，同时会认识下模板引擎，*但这些只是简略了解，这节的重点是Mongoose操作MongoDB*
 
+UI采用了漂亮的[UIkit3](http://www.getuikit.net/v3/)
+
 ![Node图书管理](http://ommpd2lnj.bkt.clouddn.com/librarian.png)
 
 传送门： [Github](https://github.com/ogilhinn/node-abc/tree/master/lesson8) 
@@ -230,6 +235,8 @@ const server = app.listen(3000, function () {
     console.log('app listening at http:localhost:3000')
 })
 ```
+
+现在我们执行`node index.js` 便可以跑起来了，当然更推荐使用以前介绍到的[supervisor](https://github.com/petruisfan/node-supervisor)
 
 这里我们再聊一聊Node web应用的模板引擎，这儿我们用了[nunjucks](http://mozilla.github.io/nunjucks/) 这是mozilla维护的一个模板引擎，他是 [jinja2](http://docs.jinkan.org/docs/jinja2/)的javascript版本，用过python的jinja2一定会感觉很亲切，除此之外，很有很多有些的模板引擎如[ejs](http://ejs.co/)，[jade](https://pugjs.org/api/getting-started.html)。但个人认为jade是反人类的，因此更推荐Nunjucks及ejs。当然了，这取决于大家的喜好，更多模板引擎请自行搜索了解。
 
@@ -309,7 +316,7 @@ const router = express.Router()
 module.exports = router // 导出
 ```
 
-新建一个index.js文件
+然后新建一个index.js文件
 
 ```javascript
 module.exports = function (app) {
@@ -318,7 +325,7 @@ module.exports = function (app) {
 ```
 这儿这样划分，在这可能看不出太多优势，但是在大一点的应用中，我们这样配置可以让功能划分很清晰。
 
-最后我们在入口文件index.js中将路由`require`进去，
+最后我们在入口文件index.js中将路由`require`进去，就可以使用了，
 
 ```javascript
 ···
@@ -351,8 +358,8 @@ db.connection.on("open", function () {
 
 const BookSchema = Schema({
     title: {
-        unique: true,
-        type: 'String',
+        unique: true, // 唯一的不可重复
+        type: 'String', // Schema.Type String类型
     },
     summary: 'String',
     price: 'Number',
@@ -367,7 +374,7 @@ const BookSchema = Schema({
 exports.Book = mongoose.model('Book', BookSchema)
 ```
 
-新建Models文件夹，在其中新建books.js放置对MongoDB 的一些操作
+新建Models文件夹，在其中新建books.js放置对MongoDB 的一些操作，这里面使用了promise，如果还不会那你就得去补补了
 
 ```javascript
 const Book = require('../lib/mongo').Book
@@ -400,7 +407,7 @@ module.exports = {
 }
 ```
 
-这里面的一些方法，我们在前面讲Mongoose的时候逸都了解过了，想了解的更多还是推荐去[官网看看](http://mongoosejs.com/)
+这里面的一些方法，我们在前面讲Mongoose的时候都了解过了，想了解的更多还是推荐去[官网看看](http://mongoosejs.com/)
 
 最后我们就是根据不同的路由进行不同的处理了
 
@@ -463,10 +470,7 @@ OK!!!到此，我们这小项目基本就算完成了。代码详见[GitHub](htt
 **抛砖引玉**
 
 ### 相关连接
-
 - [express](http://www.expressjs.com.cn/)
 - [mongoose](http://mongoosejs.com)
 - [bodyParser](https://github.com/expressjs/body-parser)
 - [JavaScript Promise迷你书中文版](http://liubin.org/promises-book/)
-
-后续：Node操作MySQL
