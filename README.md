@@ -20,14 +20,19 @@
 - Lesson6 - [Node的readline (逐行读取)](/lesson6)
 - Lesson7 - [Node中的网络编程](/lesson7)
 - Lesson8 - [Node操作数据库](/lesson8)
+- Lesson9 - [Koa快速入门教程](/lesson9)
 
 ## more
 - [Node相关入门资料](/tutorials)
+
+
 ## 联系作者
 
 - 邮箱：[ogilhinn@gmail.com](mailto:ogilhinn@gmail.com)
 - 博客: [刘星的博客](http://www.xingxin.me/)
 
+## 微信公众号：JavaScript之禅 
+![JavaScript之禅](http://ommpd2lnj.bkt.clouddn.com/qrcode_for_gh_dddbed02f672_344.jpg?imageView2/1/w/200/h/200)
 ## License
 
 本作品采用[知识共享署名-非商业性使用 4.0 国际许可协议](http://creativecommons.org/licenses/by-nc/4.0/)进行许可。![知识共享署名-非商业性使用 4.0 国际许可协议](https://i.creativecommons.org/l/by-nc/4.0/80x15.png)
