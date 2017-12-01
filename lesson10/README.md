@@ -4,6 +4,8 @@
 
 在很多项目中，我们都会遇到邮件注册，邮件反馈等需求。在node中收发电子邮件也非常简单，因为强大的社区有各种各样的包可以供我么直接使用。[Nodemailer](https://github.com/nodemailer/nodemailer)包就可以帮助我们快速实现发送邮件的功能。
 
+Github源码：[https://github.com/ogilhinn/node-abc/tree/master/lesson10](https://github.com/ogilhinn/node-abc/tree/master/lesson10)
+
 ## Nodemailer简介
 
 Nodemailer是一个简单易用的Node.js邮件发送组件
@@ -281,10 +283,20 @@ let mailOptions = {
 
 ### 最后福利干货来了
 
-#### …
+**…**
 
-#### …
+**…**
+
+**…**
 
 ### 36个国内外精致电子邮件HTML模版
 
+![产品周报类预览](https://mmbiz.qpic.cn/mmbiz_png/jQxqlKeecNusMOqia2lzmS4uIyp6xUENlkqUAvdq3BHWUb30lM954qb8Gibg8YicJqeiaoBCicr3WNoG0ia8rxNPcv8Q/0?wx_fmt=png)
+
+![投票](https://mmbiz.qpic.cn/mmbiz_png/jQxqlKeecNusMOqia2lzmS4uIyp6xUENlzkOmSp9CbXZaBkYHaOQBJtJspZtwerREh2JABMEGTHDUlPqlq9OicjA/0?wx_fmt=png)
+
+![知乎周报](https://mmbiz.qpic.cn/mmbiz_png/jQxqlKeecNusMOqia2lzmS4uIyp6xUENltL90Ys4QHAARS3VibfRelFekZ0ZEI6TWqn0YTYwYlzCkRDicFPnWwtibQ/0?wx_fmt=png)
+
 #### 关注公众号【JavaScript之禅】回复【 666 】，免费获取
+
+![JavaScript之禅](./email/ZenQcode.png)
