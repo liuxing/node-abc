@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "ejs": "^2.5.7",
+    "nodemailer": "^4.4.0"
+  }
+}
