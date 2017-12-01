@@ -123,7 +123,7 @@ transporter.sendMail(mailOptions, (error, info) => {
 
 运行程序，成功将返回messageId。这是便可以去收件箱查看这个新邮件啦
 
-![email](/Users/lx/Desktop/email.png)
+![email](https://mmbiz.qpic.cn/mmbiz_png/jQxqlKeecNusMOqia2lzmS4uIyp6xUENlD7bAZd8nFkia4DDrOqbNWe64T5hE2gzOiaZkxODR9fWy15gx4poE7zPg/0?wx_fmt=png)
 
 这里我们需要注意，auth.pass 不是邮箱账户的密码而是stmp的授权码。
 
@@ -204,7 +204,7 @@ transporter.sendMail(mailOptions, (error, info) => {
 
 运行程序，你将如愿以偿手打如下Email。*样式可能会有细微偏差*
 
-![屏幕快照 2017-12-01 16.32.41](/Users/lx/Desktop/屏幕快照 2017-12-01 16.32.41.png)
+![屏幕快照 2017-12-01 16.32.41](https://mmbiz.qpic.cn/mmbiz_png/jQxqlKeecNusMOqia2lzmS4uIyp6xUENllAX6TwscJgpOfT7hAMicWibm9mfv0tbAp4qBEgMwpmSq1by8zhLktsGA/0?wx_fmt=png)
 
 上面email中我们用了外链的图片，我们也可以使用附件的方式，将图片嵌入进去。给附件加个`cid`属性即可。
 
