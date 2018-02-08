@@ -125,7 +125,7 @@ transporter.sendMail(mailOptions, (error, info) => {
 
 运行程序，成功将返回messageId。这是便可以去收件箱查看这个新邮件啦
 
-![email](https://mmbiz.qpic.cn/mmbiz_png/jQxqlKeecNusMOqia2lzmS4uIyp6xUENlD7bAZd8nFkia4DDrOqbNWe64T5hE2gzOiaZkxODR9fWy15gx4poE7zPg/0?wx_fmt=png)
+![email](https://mmbiz.qpic.cn/mmbiz_png/jQxqlKeecNusMOqia2lzmS4uIyp6xUENlKVLrpffOdp3iaRb9iaIBnzhytQ5CiakRafPHNpr4hWGY6clLAovwGy1BQ/0?wx_fmt=png)
 
 这里我们需要注意，auth.pass 不是邮箱账户的密码而是stmp的授权码。
 
