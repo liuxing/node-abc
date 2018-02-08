@@ -1,5 +1,7 @@
 # Node.js使用Nodemailer发送邮件
 
+*原文链接：[Node.js使用Nodemailer发送邮件](https://mp.weixin.qq.com/s?__biz=MzU0OTE3MjE1Mw==&mid=2247483763&idx=1&sn=0166a93351c092aeb2c4efb8c0e0a4b3&chksm=fbb2a7a5ccc52eb3b241f32601a23be8a431e671ff493327ff61becc4f4ceb1da319ec6c8ea8#rd)*
+
 电子邮件是—种用电子手段提供信息交换的通信方式，是互联网应用最广的服务。通过网络的电子邮件系统，用户可以以非常低廉的价格（不管发送到哪里，都只需负担网费）、非常快速的方式（几秒钟之内可以发送到世界上任何指定的目的地），与世界上任何一个角落的网络用户联系。
 
 在很多项目中，我们都会遇到邮件注册，邮件反馈等需求。在node中收发电子邮件也非常简单，因为强大的社区有各种各样的包可以供我么直接使用。[Nodemailer](https://github.com/nodemailer/nodemailer)包就可以帮助我们快速实现发送邮件的功能。
