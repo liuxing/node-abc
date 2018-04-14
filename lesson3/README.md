@@ -157,7 +157,7 @@ $ npm install <package name> --save-dev
 我们可以使用以下命令来卸载 Node.js 模块
 
 ```bash
-$ npm update <package name>
+$ npm uninstall <package name>
 ```
 
 #### 更新模块
@@ -165,7 +165,7 @@ $ npm update <package name>
 我们可以使用以下命令来卸载 Node.js 模块
 
 ```bash
-$ npm uninstall <package name>
+$ npm update <package name>
 ```
 #### 创建模块
 
