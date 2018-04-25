@@ -2,7 +2,7 @@
 
 现在，日常生活已经离不开微信，本文将会抛砖引玉演示如何使用[wechaty](https://github.com/Chatie/wechaty)操作微信个人号做一些有意思的东西，可以实现自动通过好友请求、关键词回复、自动拉群等功能。大大提高了社群运营的效率。
 
-wechaty（https://github.com/Chatie/wechaty）是一款开源的微信个人号SDK，进行了一系列的封装，提供简单好用的接口，然后开发者可以在其之上进行微信机器人的开发。你可以用它来做很多事：
+wechaty（[https://github.com/Chatie/wechaty](https://github.com/Chatie/wechaty)）是一款开源的微信个人号SDK，进行了一系列的封装，提供简单好用的接口，然后开发者可以在其之上进行微信机器人的开发。你可以用它来做很多事：
 
 1）管理和维护好友；
 2）快速有序地处理聊天信息 
