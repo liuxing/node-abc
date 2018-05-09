@@ -31,8 +31,7 @@
 
 ## 联系作者
 
-- 邮箱：[ogilhinn@gmail.com](mailto:ogilhinn@gmail.com)
-- 博客: [刘星的博客](http://www.xingxin.me/)
+- 邮箱：[ogilhinn@gmail.com](mailto:vchn.liuxing@gmail.com)
 
 ## 微信公众号：JavaScript之禅 
 ![JavaScript之禅](http://ommpd2lnj.bkt.clouddn.com/qrcode_for_gh_dddbed02f672_344.jpg?imageView2/1/w/200/h/200)
