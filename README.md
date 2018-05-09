@@ -31,7 +31,7 @@
 
 ## 联系作者
 
-- 邮箱：[ogilhinn@gmail.com](mailto:vchn.liuxing@gmail.com)
+- 邮箱：[chn.liuxing@gmail.com](mailto:chn.liuxing@gmail.com)
 
 ## 微信公众号：JavaScript之禅 
 ![JavaScript之禅](http://ommpd2lnj.bkt.clouddn.com/qrcode_for_gh_dddbed02f672_344.jpg?imageView2/1/w/200/h/200)
