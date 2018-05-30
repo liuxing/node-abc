@@ -351,6 +351,7 @@ server.listen(port, hostname, () => {
 ```javascript
 const mime = require('mime');
 
+// mime 2.x lookup 更名为 getType
 mime.lookup('/path/to/file.txt');         // => 'text/plain'
 mime.lookup('file.txt');                  // => 'text/plain'
 mime.lookup('.TXT');                      // => 'text/plain'
