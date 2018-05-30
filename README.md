@@ -23,10 +23,11 @@
 - Lesson9 - [Koa快速入门教程](/lesson9)
 - Lesson10 - [Node.js使用Nodemailer发送邮件](/lesson10)
 - Lesson11 - [node爬虫：送你一大波美腿图](/lesson11)
--  Lesson12 - [node打造微信个人号机器人](/lesson12)
+- Lesson12 - [node打造微信个人号机器人](/lesson12)
 
 ## more
 - [Node相关入门资料](/tutorials)
+- [《Node.js从入门到上线》更新中](https://github.com/liuxing/abc-blog)
 
 
 ## 联系作者
