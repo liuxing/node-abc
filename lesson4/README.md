@@ -286,6 +286,7 @@ Press rs for restarting the process.
 ```javascript
 const http = require('http')
 const url = require('url') //引入url模块
+const path= require('path') //引入path模块
 
 const hostname = '127.0.0.1'
 const port = 3000
