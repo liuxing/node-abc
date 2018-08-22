@@ -370,7 +370,7 @@ else{
       return false
     }
     res.writeHead(200, { 
-      'Content-Type': `${mime.lookup(pathname)};charset:UTF-8`
+      'Content-Type': `${mime.getType(pathname)};charset:UTF-8`
     })
     res.write(data, 'binary')
     res.end()
