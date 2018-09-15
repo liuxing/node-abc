@@ -352,11 +352,10 @@ server.listen(port, hostname, () => {
 ```javascript
 const mime = require('mime');
 
-// mime 2.x lookup 更名为 getType
-mime.lookup('/path/to/file.txt');         // => 'text/plain'
-mime.lookup('file.txt');                  // => 'text/plain'
-mime.lookup('.TXT');                      // => 'text/plain'
-mime.lookup('htm');                       // => 'text/html'
+mime.getType('/path/to/file.txt');         // => 'text/plain'
+mime.getType('file.txt');                  // => 'text/plain'
+mime.getType('.TXT');                      // => 'text/plain'
+mime.getType('htm');                       // => 'text/html'
 //具体使用异步官网
 ```
 这儿用到了前面讲的文件读取：
@@ -370,7 +369,7 @@ else{
       return false
     }
     res.writeHead(200, { 
-      'Content-Type': `${mime.lookup(pathname)};charset:UTF-8`
+      'Content-Type': `${mime.getType(pathname)};charset:UTF-8`
     })
     res.write(data, 'binary')
     res.end()
