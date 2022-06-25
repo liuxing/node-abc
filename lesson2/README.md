@@ -54,7 +54,7 @@ console.log(server.timeout)
 - request.trailers 存放附加的一些http头信息
 - request.socket 用于监听客户端请求的socket对象
 
-我们可以写一小段js讲客户端的请求信息保存在log.txt中
+我们可以写一小段js将客户端的请求信息保存在log.txt中
 
 ```javascript
 const http = require('http') //引入http模块
